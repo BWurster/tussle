@@ -4,9 +4,19 @@ import type { NameEntry, Gender, Settings } from '../types'
 import boyNamesData from '../data/boyNames.json'
 import girlNamesData from '../data/girlNames.json'
 
-const BACKUP_BOY_NAMES: string[] = boyNamesData.backup
-const BACKUP_GIRL_NAMES: string[] = girlNamesData.backup
 import { generateNewName } from '../lib/ai'
+
+const BACKUP_BOY_NAMES: string[] = [...boyNamesData.popular, ...boyNamesData.backup]
+const BACKUP_GIRL_NAMES: string[] = [...girlNamesData.popular, ...girlNamesData.backup]
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
 
 interface Props {
   gender: Gender
@@ -57,7 +67,7 @@ export function Play({ gender, names, settings, isOnline, onMatchup, onAddName, 
   const getBackupPool = useCallback(() => {
     const pool = gender === 'boy' ? BACKUP_BOY_NAMES : BACKUP_GIRL_NAMES
     const existing = new Set(names.map(n => n.name.toLowerCase()))
-    return pool.filter(n => !existing.has(n.toLowerCase()))
+    return shuffleArray(pool.filter(n => !existing.has(n.toLowerCase())))
   }, [gender, names])
 
   const buildMatchup = useCallback(async () => {

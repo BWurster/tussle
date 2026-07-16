@@ -5,8 +5,8 @@ import boyNamesData from '../data/boyNames.json'
 import girlNamesData from '../data/girlNames.json'
 import { generateInitialNames } from '../lib/ai'
 
-const POPULAR_BOYS = boyNamesData.popular
-const POPULAR_GIRLS = girlNamesData.popular
+const ALL_BOYS = [...boyNamesData.popular, ...boyNamesData.backup]
+const ALL_GIRLS = [...girlNamesData.popular, ...girlNamesData.backup]
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -98,7 +98,7 @@ export function Onboarding({ gender, settings, isOnline, onComplete, onOpenSetti
   async function finish(finalAnswers: OnboardingAnswers | null) {
     setPhase('loading')
 
-    const pool = gender === 'boy' ? POPULAR_BOYS : POPULAR_GIRLS
+    const pool = gender === 'boy' ? ALL_BOYS : ALL_GIRLS
     const popular = shuffle(pool).slice(0, finalAnswers ? 20 : 30)
 
     let aiNames: string[] = []
