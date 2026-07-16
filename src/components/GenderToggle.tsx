@@ -8,8 +8,8 @@ interface Props {
 }
 
 const OPTIONS: { value: Gender; icon: string; label: string; color: string }[] = [
-  { value: 'boy',  icon: '♂', label: 'Boy',  color: 'text-blue-500' },
-  { value: 'girl', icon: '♀', label: 'Girl', color: 'text-pink-500' },
+  { value: 'boy',  icon: '♂︎', label: 'Boy',  color: 'text-blue-500' },
+  { value: 'girl', icon: '♀︎', label: 'Girl', color: 'text-pink-500' },
 ]
 
 export function GenderToggle({ active, onChange }: Props) {
