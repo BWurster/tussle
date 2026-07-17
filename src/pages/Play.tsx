@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Sparkles, WifiOff, KeyRound } from 'lucide-react'
 import type { NameEntry, Gender, Settings } from '../types'
 import boyNamesData from '../data/boyNames.json'
@@ -125,12 +125,31 @@ export function Play({ gender, names, settings, isOnline, onMatchup, onAddName, 
     buildMatchup()
   }
 
+  // A shown name can be auto-removed (low win rate) by a different matchup
+  // resolving elsewhere — discard a stale matchup before the user can pick it.
+  useEffect(() => {
+    if (!matchup || chosen) return
+    const stillValid = names.some(n => n.id === matchup.left.id) && names.some(n => n.id === matchup.right.id)
+    if (!stillValid) {
+      setMatchup(null)
+      buildMatchup()
+    }
+  }, [names, matchup, chosen, buildMatchup])
+
   async function handleChoice(side: 'left' | 'right') {
     if (!matchup || chosen) return
-    setChosen(side)
 
     const winner = side === 'left' ? matchup.left : matchup.right
     const loser = side === 'left' ? matchup.right : matchup.left
+
+    const stillValid = names.some(n => n.id === winner.id) && names.some(n => n.id === loser.id)
+    if (!stillValid) {
+      setMatchup(null)
+      await buildMatchup()
+      return
+    }
+
+    setChosen(side)
     onMatchup(winner.id, loser.id)
 
     setTimeout(async () => {

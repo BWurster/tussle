@@ -90,6 +90,8 @@ export function Onboarding({ gender, settings, isOnline, onComplete, onOpenSetti
         gender,
         score: 1200,
         comparisons: 0,
+        wins: 0,
+        losses: 0,
         addedAt: Date.now(),
         isCustom: false,
       }))

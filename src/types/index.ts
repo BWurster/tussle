@@ -9,6 +9,8 @@ export interface NameEntry {
   gender: Gender
   score: number
   comparisons: number
+  wins: number
+  losses: number
   addedAt: number
   isCustom: boolean
 }

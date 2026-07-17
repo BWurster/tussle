@@ -12,7 +12,7 @@ import { Settings } from './pages/Settings'
 type Tab = 'play' | 'leaderboard'
 
 export default function App() {
-  const { state, setActiveGender, updateSettings, completeOnboarding, recordMatchup, addName, deleteName, resetGender } = useAppState()
+  const { state, setActiveGender, updateSettings, completeOnboarding, recordMatchup, addName, deleteName, deleteNames, resetGender } = useAppState()
   const isOnline = useOnline()
   const [activeTab, setActiveTab] = useState<Tab>('play')
   const [showSettings, setShowSettings] = useState(false)
@@ -115,6 +115,7 @@ export default function App() {
                 names={genderState.names}
                 settings={settings}
                 onDelete={id => deleteName(gender, id)}
+                onDeleteMany={ids => deleteNames(gender, ids)}
                 onAdd={handleAddName}
               />
             )}
