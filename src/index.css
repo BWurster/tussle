@@ -17,11 +17,20 @@ html, body, #root {
   padding: 0;
 }
 
+html {
+  background-color: #ffffff;
+}
+
+html.dark {
+  background-color: var(--color-gray-950);
+}
+
 body {
   font-family: 'Nunito', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
+  background-color: inherit;
 }
 
 #root {
