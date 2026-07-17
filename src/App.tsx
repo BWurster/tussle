@@ -56,7 +56,7 @@ export default function App() {
   const showBottomNav = genderState.onboardingComplete && !showSettings
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-950 pt-[env(safe-area-inset-top)]">
       {!isOnline && <OfflineBanner />}
 
       {/* Header — always visible */}
@@ -125,7 +125,7 @@ export default function App() {
 
       {/* Bottom nav — hidden in settings */}
       {showBottomNav && (
-        <div className="shrink-0 flex border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950">
+        <div className="shrink-0 flex border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 pb-[env(safe-area-inset-bottom)]">
           {([
             { id: 'play', label: 'Play', Icon: Swords },
             { id: 'leaderboard', label: 'Leaderboard', Icon: Trophy },
