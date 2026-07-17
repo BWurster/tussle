@@ -35,9 +35,7 @@ export function Leaderboard({ gender, names, settings, onDelete, onDeleteMany, o
     setShowBulkConfirm(false)
   }, [gender])
 
-  const ranked = [...names]
-    .filter(n => n.comparisons > 0 || n.isCustom)
-    .sort((a, b) => b.score - a.score)
+  const ranked = [...names].sort((a, b) => b.score - a.score)
 
   function startPress(id: string) {
     if (selectMode) return
