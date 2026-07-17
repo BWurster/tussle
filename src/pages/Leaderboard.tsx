@@ -26,6 +26,7 @@ export function Leaderboard({ gender, names, settings, onDelete, onDeleteMany, o
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [showBulkConfirm, setShowBulkConfirm] = useState(false)
   const pressTimer = useRef<number | null>(null)
+  const longPressFired = useRef(false)
 
   const selectMode = selectedIds.size > 0
 
@@ -41,6 +42,7 @@ export function Leaderboard({ gender, names, settings, onDelete, onDeleteMany, o
   function startPress(id: string) {
     if (selectMode) return
     pressTimer.current = window.setTimeout(() => {
+      longPressFired.current = true
       setSelectedIds(new Set([id]))
     }, LONG_PRESS_MS)
   }
@@ -59,6 +61,17 @@ export function Leaderboard({ gender, names, settings, onDelete, onDeleteMany, o
       else next.add(id)
       return next
     })
+  }
+
+  function handleRowClick(id: string) {
+    // A long-press that just activated selection also fires a trailing
+    // click on release (mouse and touch alike) — swallow that one click
+    // so it doesn't immediately toggle the name back off.
+    if (longPressFired.current) {
+      longPressFired.current = false
+      return
+    }
+    if (selectMode) toggleSelect(id)
   }
 
   function selectBelowBottommost() {
@@ -183,7 +196,8 @@ export function Leaderboard({ gender, names, settings, onDelete, onDeleteMany, o
                   onPointerUp={cancelPress}
                   onPointerLeave={cancelPress}
                   onPointerCancel={cancelPress}
-                  onClick={() => selectMode && toggleSelect(entry.id)}
+                  onContextMenu={e => e.preventDefault()}
+                  onClick={() => handleRowClick(entry.id)}
                   className={`flex items-center gap-3 p-3.5 rounded-xl border shadow-sm select-none transition-colors
                     ${selectMode ? 'cursor-pointer' : ''}
                     ${selected
