@@ -51,7 +51,7 @@ export function useAppState() {
         })
         .filter(n => {
           if (n.id !== winnerId && n.id !== loserId) return true
-          return n.comparisons <= 3 || n.wins / n.comparisons >= 0.5
+          return n.comparisons < 3 || n.wins / n.comparisons >= 0.5
         })
       return { ...s, [gender]: { ...genderState, names } }
     })
